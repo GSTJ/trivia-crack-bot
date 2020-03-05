@@ -1,59 +1,15 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import {
+  GameResponse,
+  GraphResponse,
+  ErrorCode,
+  DuelResponse,
+  AnswersPayload,
+  Player,
+} from "./@types";
+import { sleep } from "./utils";
 
-enum ErrorCode {
-  LivesEnded = 2013,
-  TokenExpired = 190,
-  InvalidToken = 2500,
-  GenericToken = 607,
-}
-
-interface GraphResponse {
-  id: string;
-  email: string;
-  error?: {
-    code: ErrorCode;
-  };
-}
-
-interface GameResponse {
-  code?: ErrorCode;
-  id: string;
-  session: {
-    session: string;
-  };
-  facebook_name: string;
-}
-
-interface Question {
-  id: string;
-  category: string;
-  correct_answer: string;
-}
-
-interface DuelResponse {
-  code?: ErrorCode;
-  game: {
-    questions: Question[];
-  };
-  countdown: number;
-}
-
-interface Player {
-  id: string;
-  correct_answers: number;
-  finish_time: number;
-}
-
-interface AnswersPayload {
-  answers: {
-    id: string;
-    category: string;
-    answer: string;
-  }[];
-  finish_time: number;
-}
-
-let game: GameResponse; // declare game here to be available in the whole file
+let game: GameResponse;
 
 const api: AxiosInstance = axios.create({
   baseURL: "https://api.preguntados.com/api",
@@ -76,7 +32,8 @@ async function login(accessToken: string): Promise<void> {
         site: "fbk",
       }
     );
-    game = gameResponse.data; // assign the response to the game variable
+
+    game = gameResponse.data;
 
     if (graph.error) {
       handleError(graph.error.code);
@@ -193,10 +150,6 @@ async function main(): Promise<void> {
   } catch (error) {
     console.error("Error in main:", error);
   }
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function handleRequestError(error: any, message: string): void {
