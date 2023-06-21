@@ -14,7 +14,7 @@ Error handling: The bot handles a variety of potential errors to ensure smooth o
 
 # How it Works
 
-The bot uses the axios library to make HTTP requests to the Trivia Crack API. It logs into the game using a Facebook access token, then it begins participating in games. It uses pre-defined answers to respond to questions. If it encounters an error, such as a token expiration, it handles it gracefully.
+The bot uses the axios library to make HTTP requests to the Trivia Crack API. It logs into the game using a Facebook access token, then it begins participating in games. It uses the answers the server spoils to respond to questions. If it encounters an error, such as a token expiration, it handles it gracefully.
 
 # Usage
 
